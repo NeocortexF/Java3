@@ -28,11 +28,11 @@ public class ArrayHolder<T extends Object> {
         Scanner input = new Scanner(System.in);
         System.out.println("Выберите два элемента для того, что бы поменять их местами: \n");
         lowElement = input.nextInt();
-        if (lowElement < myArray.length || lowElement > myArray.length) {
+        if (lowElement < 0 || lowElement > myArray.length) {
             System.out.println("Выберите значение первого элемента в диапазоне от 0 до " + myArray.length);
         }
         highElement = input.nextInt();
-        if (highElement < myArray.length || highElement > myArray.length) {
+        if (highElement < 0 || highElement > myArray.length) {
             System.out.println("Выберите значение второго элемента в диапазоне от 0 до " + myArray.length);
         }
         T tempElement = myArray[lowElement];
