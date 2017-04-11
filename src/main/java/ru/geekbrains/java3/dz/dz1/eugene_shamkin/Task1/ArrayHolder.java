@@ -27,14 +27,15 @@ public class ArrayHolder<T extends Object> {
     public void intermixElements() {
         Scanner input = new Scanner(System.in);
         System.out.println("Выберите два элемента для того, что бы поменять их местами: \n");
-        lowElement = input.nextInt();
-        if (lowElement < 0 || lowElement > myArray.length) {
+        do {
             System.out.println("Выберите значение первого элемента в диапазоне от 0 до " + myArray.length);
-        }
-        highElement = input.nextInt();
-        if (highElement < 0 || highElement > myArray.length) {
+            lowElement = input.nextInt();
+        } while (lowElement < 0 || lowElement > myArray.length);
+        do {
             System.out.println("Выберите значение второго элемента в диапазоне от 0 до " + myArray.length);
-        }
+            highElement = input.nextInt();
+        } while (highElement < 0 || highElement > myArray.length);
+
         T tempElement = myArray[lowElement];
         myArray[lowElement] = myArray[highElement];
         myArray[highElement] = tempElement;
