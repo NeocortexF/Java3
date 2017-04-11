@@ -1,5 +1,6 @@
 package ru.geekbrains.java3.dz.dz1.eugene_shamkin.Task1;
 
+import java.lang.reflect.Array;
 import java.util.Scanner;
 
 /** Geekbrains.ru
@@ -11,6 +12,7 @@ import java.util.Scanner;
  */
 public class Main {
     private int size;
+    private Object clazz;
 
     public static void main(String[] args) {
         Main m = new Main();
@@ -18,7 +20,6 @@ public class Main {
         filledArray.info();
         filledArray.intermixElements();
         filledArray.info();
-
     }
 
     private ArrayHolder arrayInitializator() {
@@ -26,6 +27,11 @@ public class Main {
         System.out.println("Введите размер массива: \n");
         size = input.nextInt();
         Integer array[] = new Integer[size];
+//        System.out.println("Введите тип массива: \n");
+//        clazz = input.next();
+//        ArrayHolder<?> myArray = getArray(clazz.getClass(), size);   // не смог реализовать тут,
+                                                                        //поэтому сдаю только для интов
+
         System.out.println("Введите последовательно числа в массив: \n");
         for (int i = 0; i < size; i++) {
             array[i] = input.nextInt();
@@ -34,5 +40,9 @@ public class Main {
         return myArray;
     }
 
-
+    public <E> E[] getArray(Class<E> clazz, int size) {
+        @SuppressWarnings("unchecked")
+        E[] arr = (E[]) Array.newInstance(clazz, size);
+        return arr;
+    }
 }

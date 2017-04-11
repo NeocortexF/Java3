@@ -28,13 +28,13 @@ public class ArrayHolder<T extends Object> {
         Scanner input = new Scanner(System.in);
         System.out.println("Выберите два элемента для того, что бы поменять их местами: \n");
         do {
-            System.out.println("Выберите значение первого элемента в диапазоне от 0 до " + myArray.length);
+            System.out.println("Выберите значение первого элемента в диапазоне от 0 до " + (myArray.length - 1));
             lowElement = input.nextInt();
-        } while (lowElement < 0 || lowElement > myArray.length);
+        } while (lowElement < 0 || lowElement > (myArray.length - 1));
         do {
-            System.out.println("Выберите значение второго элемента в диапазоне от 0 до " + myArray.length);
+            System.out.println("Выберите значение второго элемента в диапазоне от 0 до " + (myArray.length - 1));
             highElement = input.nextInt();
-        } while (highElement < 0 || highElement > myArray.length);
+        } while (highElement < 0 || highElement > (myArray.length - 1));
 
         T tempElement = myArray[lowElement];
         myArray[lowElement] = myArray[highElement];
