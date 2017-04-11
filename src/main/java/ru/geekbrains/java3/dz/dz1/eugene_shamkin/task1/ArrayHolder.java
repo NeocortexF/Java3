@@ -1,4 +1,4 @@
-package ru.geekbrains.java3.dz.dz1.eugene_shamkin.Task1;
+package ru.geekbrains.java3.dz.dz1.eugene_shamkin.task1;
 
 import java.util.Arrays;
 import java.util.Scanner;
