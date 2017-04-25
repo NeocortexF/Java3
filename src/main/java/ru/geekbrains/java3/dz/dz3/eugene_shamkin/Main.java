@@ -63,6 +63,7 @@ public class Main {
         al.add(file8);
         al.add(file9);
         al.add(file10);
+
         Enumeration<FileInputStream> e = Collections.enumeration(al);
         SequenceInputStream sis = new SequenceInputStream(e);
 
