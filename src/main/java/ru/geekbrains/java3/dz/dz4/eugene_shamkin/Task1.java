@@ -1,8 +1,5 @@
 package ru.geekbrains.java3.dz.dz4.eugene_shamkin;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * Geekbrains.ru
  * Course name: Java 3
@@ -14,36 +11,67 @@ import java.util.concurrent.Executors;
  */
 public class Task1 {
 
-    public static void main(String[] args) {
-        ExecutorService serv = Executors.newSingleThreadExecutor();
-        Task1 w = new Task1();
-        Thread t1 = new Thread(() -> {
-            w.printA();
-        });
-        Thread t2 = new Thread(() -> {
-            w.printB();
-        });
-        Thread t3 = new Thread(() -> {
-            w.printC();
-        });
+    private static final Object lock = new Object();
+    private static volatile char currentLetter = 'A';
 
-        for (int i = 0; i < 3; i++) {
-            serv.execute(t1);
-            serv.execute(t2);
-            serv.execute(t3);
+    public static void execute() {
+        new Thread(() -> printA()).start();
+        new Thread(() -> printB()).start();
+        new Thread(() -> printC()).start();
+    }
+
+    private static void printA() {
+        synchronized (lock) {
+            try {
+                for (int i = 0; i < 3; i++) {
+                    while (currentLetter != 'A') {
+                        lock.wait();
+                    }
+                    System.out.print("A");
+                    currentLetter = 'B';
+                    lock.notifyAll();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void printA() {
-        System.out.print("A");
+    private static void printB() {
+        synchronized (lock) {
+            try {
+                for (int i = 0; i < 3; i++) {
+                    while (currentLetter != 'B') {
+                        lock.wait();
+                    }
+                    System.out.print("B");
+                    currentLetter = 'C';
+                    lock.notifyAll();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public void printB() {
-        System.out.print("B");
+    private static void printC() {
+        synchronized (lock) {
+            try {
+                for (int i = 0; i < 3; i++) {
+                    while (currentLetter != 'C') {
+                        lock.wait();
+                    }
+                    System.out.print("C");
+                    currentLetter = 'A';
+                    lock.notifyAll();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public void printC() {
-        System.out.print("C");
+    public static void main(String[] args) {
+        execute();
     }
-
 }
