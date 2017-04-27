@@ -54,7 +54,7 @@ public class HW<T> {
         this.array = array;
     }
 
-    public void change(int index1, int index2) { //Task1
+    public void change(int index1, int index2) { //task1
         if (((0 <= index1) && (index1 < array.length)) && ((0 <= index2) && (index2 < array.length))) {
             T element1 = array[index1];
             array[index1] = array[index2];
