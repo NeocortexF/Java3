@@ -10,39 +10,50 @@ package ru.geekbrains.java3.dz.dz5.eugene_shamkin;
 // Можете корректировать конструктор машин и добавлять объекты классов из пакета util.concurrent
 // исходники копируем в папку со своей домашкой
 
-
 import java.util.concurrent.CyclicBarrier;
 
 public class MainClass {
-    public static final int CARS_COUNT = 3;
+    public static final int CARS_COUNT = 4;
+    private static final Object lock1 = new Object();
+    private static final Object lock2 = new Object();
+
 
     public static void main(String[] args) {
-        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Подготовка!!!");
         Race race = new Race(new Road(60), new Tunnel(), new Road(40));
         Car[] cars = new Car[CARS_COUNT];
 
-        //для синхронизации запуска используем CyclicBarrier
-        CyclicBarrier cb = new CyclicBarrier(3);
+        synchronized (lock1) {
+            System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Подготовка!!!");
+        }
+
+
+
+        CyclicBarrier cb = new CyclicBarrier(CARS_COUNT);
         for (int i = 0; i < cars.length; i++) {
             final int currentRacer = i;
             new Thread(() -> {
                 try {
-                    System.out.println("Гонщик " + currentRacer + " готовится");
-                    Thread.sleep(100 + (int) (3000 * Math.random()));
-                    System.out.println("Гонщик " + currentRacer + " готов");
                     cars[currentRacer] = new Car(race, 20 + (int) (Math.random() * 10));
                     cb.await();
-                    
+                    cars[currentRacer].run();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }).start();
         }
-        /*for (int i = 0; i < cars.length; i++) {
-            new Thread(cars[i]).start();
-        }*/
-        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка началась!!!");
-        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка закончилась!!!");
-    }
 
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Все участники готовы!!!");
+
+
+       /* for (int j = 0; j < race.getStages().size(); j++) {
+            race.getStages().get(j).go(cars[currentRacer]);
+        }*/
+
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка началась!!!");
+
+
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка закончилась!!!");
+
+    }
 }
