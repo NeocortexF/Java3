@@ -10,25 +10,39 @@ package ru.geekbrains.java3.dz.dz5.eugene_shamkin;
 // Можете корректировать конструктор машин и добавлять объекты классов из пакета util.concurrent
 // исходники копируем в папку со своей домашкой
 
-import ru.geekbrains.java3.lesson5.dz5.Car;
-import ru.geekbrains.java3.lesson5.dz5.Race;
-import ru.geekbrains.java3.lesson5.dz5.Road;
-import ru.geekbrains.java3.lesson5.dz5.Tunnel;
+
+import java.util.concurrent.CyclicBarrier;
 
 public class MainClass {
-    public static final int CARS_COUNT = 4;
+    public static final int CARS_COUNT = 3;
 
     public static void main(String[] args) {
         System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Подготовка!!!");
-        ru.geekbrains.java3.lesson5.dz5.Race race = new Race(new Road(60), new Tunnel(), new Road(40));
+        Race race = new Race(new Road(60), new Tunnel(), new Road(40));
         Car[] cars = new Car[CARS_COUNT];
+
+        //для синхронизации запуска используем CyclicBarrier
+        CyclicBarrier cb = new CyclicBarrier(3);
         for (int i = 0; i < cars.length; i++) {
-            cars[i] = new Car(race, 20 + (int) (Math.random() * 10));
+            final int currentRacer = i;
+            new Thread(() -> {
+                try {
+                    System.out.println("Гонщик " + currentRacer + " готовится");
+                    Thread.sleep(100 + (int) (3000 * Math.random()));
+                    System.out.println("Гонщик " + currentRacer + " готов");
+                    cars[currentRacer] = new Car(race, 20 + (int) (Math.random() * 10));
+                    cb.await();
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
-        for (int i = 0; i < cars.length; i++) {
+        /*for (int i = 0; i < cars.length; i++) {
             new Thread(cars[i]).start();
-        }
+        }*/
         System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка началась!!!");
         System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка закончилась!!!");
     }
+
 }
