@@ -15,20 +15,46 @@ import java.util.concurrent.Semaphore;
 
 public class MainClass {
     public static final int CARS_COUNT = 4;
-    private static final Object lock1 = new Object();
-    private static final Object lock2 = new Object();
+    private static volatile Race race = new Race(new Road(60), new Tunnel(), new Road(40));
+    private static volatile Car[] cars = new Car[CARS_COUNT];
 
 
     public static void main(String[] args) {
-        Race race = new Race(new Road(60), new Tunnel(), new Road(40));
-        Car[] cars = new Car[CARS_COUNT];
 
-        synchronized (lock1) {
-            System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Подготовка!!!");
+        preparation();
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Все участники готовы!!!");
+
+
+       /* for (int j = 0; j < race.getStages().size(); j++) {
+            race.getStages().get(j).go(cars[currentRacer]);
+        }*/
+
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка началась!!!");
+
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Участники заезжают в тоннель!! Ширина тунеля не повзолит проехать более половины участников одновременно!");
+        try {
+            tunnel(cars[]);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
 
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка закончилась!!!");
 
+    }
+
+    private static void tunnel(Car c) throws InterruptedException {
+        Semaphore semaphore = new Semaphore(CARS_COUNT / 2, true);
+        semaphore.acquire();
+        try {
+            System.out.println("Участник номер " + c + "проехал тоннель!");
+        } finally {
+            semaphore.release();
+        }
+    }
+
+    private static void preparation() {
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Подготовка!!!");
         CyclicBarrier cb = new CyclicBarrier(CARS_COUNT);
         for (int i = 0; i < cars.length; i++) {
             final int currentRacer = i;
@@ -41,38 +67,6 @@ public class MainClass {
                     e.printStackTrace();
                 }
             }).start();
-        }
-
-        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Все участники готовы!!!");
-
-
-       /* for (int j = 0; j < race.getStages().size(); j++) {
-            race.getStages().get(j).go(cars[currentRacer]);
-        }*/
-
-        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка началась!!!");
-
-        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Участники заезжают в тоннель!! Ширина тунеля не повзолит проехать более половины участников одновременно!");
-        try {
-            tunnel();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка закончилась!!!");
-
-    }
-
-    private static void tunnel() throws InterruptedException {
-        Semaphore semaphore = new Semaphore(CARS_COUNT/2);
-        semaphore.acquire();
-        try {
-            int queue = semaphore.getQueueLength();
-            System.out.println("На входе в тоннель скопилась очередь из " + queue + " участников!");
-           // System.out.println("Участник номер " + + "проехал тоннель!");
-        } finally {
-            semaphore.release();
         }
     }
 }
