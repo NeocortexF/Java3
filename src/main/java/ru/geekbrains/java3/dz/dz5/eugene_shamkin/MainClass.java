@@ -11,6 +11,7 @@ package ru.geekbrains.java3.dz.dz5.eugene_shamkin;
 // исходники копируем в папку со своей домашкой
 
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 
 public class MainClass {
     public static final int CARS_COUNT = 4;
@@ -36,7 +37,6 @@ public class MainClass {
                     cars[currentRacer] = new Car(race, 20 + (int) (Math.random() * 10));
                     cb.await();
                     cars[currentRacer].run();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -52,8 +52,27 @@ public class MainClass {
 
         System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка началась!!!");
 
+        System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Участники заезжают в тоннель!! Ширина тунеля не повзолит проехать более половины участников одновременно!");
+        try {
+            tunnel();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         System.out.println("ВАЖНОЕ ОБЪЯВЕНИЕ >>> Гонка закончилась!!!");
 
+    }
+
+    private static void tunnel() throws InterruptedException {
+        Semaphore semaphore = new Semaphore(CARS_COUNT/2);
+        semaphore.acquire();
+        try {
+            int queue = semaphore.getQueueLength();
+            System.out.println("На входе в тоннель скопилась очередь из " + queue + " участников!");
+           // System.out.println("Участник номер " + + "проехал тоннель!");
+        } finally {
+            semaphore.release();
+        }
     }
 }
