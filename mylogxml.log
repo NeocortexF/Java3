@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2017-04-29T18:05:24</date>
+  <millis>1493478324858</millis>
+  <sequence>0</sequence>
+  <logger>ru.geekbrains.java3.lesson6.logging.Example2Handlers</logger>
+  <level>SEVERE</level>
+  <class>ru.geekbrains.java3.lesson6.logging.Example2Handlers</class>
+  <method>tryToDivBy0</method>
+  <thread>1</thread>
+  <message>Ошибка деления на ноль</message>
+  <exception>
+    <message>java.lang.ArithmeticException: / by zero</message>
+    <frame>
+      <class>ru.geekbrains.java3.lesson6.logging.Example2Handlers</class>
+      <method>tryToDivBy0</method>
+      <line>34</line>
+    </frame>
+    <frame>
+      <class>ru.geekbrains.java3.lesson6.logging.Example2Handlers</class>
+      <method>main</method>
+      <line>29</line>
+    </frame>
+  </exception>
+</record>
+</log>
