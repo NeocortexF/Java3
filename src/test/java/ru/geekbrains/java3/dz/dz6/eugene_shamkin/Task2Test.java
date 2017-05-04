@@ -3,11 +3,6 @@ package ru.geekbrains.java3.dz.dz6.eugene_shamkin;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-/**
- * Created by Администратор on 04.05.2017.
- */
 public class Task2Test {
     int[] arrayWith1 = new int[] {5, 6, 1, 2, 7};
     int[] arrayWith4and1 = new int[] {1, 2, 3, 4, 5, 6};
