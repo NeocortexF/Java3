@@ -1,16 +1,7 @@
 package ru.geekbrains.java3.dz.dz6.eugene_shamkin;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.springframework.context.annotation.Bean;
-
-import java.util.Arrays;
-import java.util.Collection;
-
-import static org.junit.Assert.*;
 
 /**
  * Geekbrains.ru
