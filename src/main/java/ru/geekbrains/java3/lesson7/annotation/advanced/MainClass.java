@@ -12,8 +12,8 @@ public class MainClass {
     public static void main(String[] args) {
         try {
             Method m = MainClass.class.getMethod("advAnnotatedMethod", null);
-            AdvancedAnnotation annotation = m.getAnnotation(AdvancedAnnotation.class);
-            System.out.println("value: " + annotation.value());
+ //           AdvancedAnnotation annotation = m.getAnnotation(AdvancedAnnotation.class);
+ //           System.out.println("value: " + annotation.value());
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
